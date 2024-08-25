@@ -121,6 +121,10 @@ const studentSchema = new Schema<TStudent>(
       ref: 'AcademicSemester',
     },
     profileImg: { type: String },
+    // isDeleted: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   {
     toJSON: {

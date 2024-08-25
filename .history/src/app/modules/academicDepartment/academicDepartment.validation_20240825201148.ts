@@ -9,11 +9,10 @@ const createAcademicDepartmentValidation = z.object({
 });
 
 const updateAcademicDepartmentValidation = z.object({
-  body: z
-    .object({
-      name: z.string().min(1, 'Name is required'),
-    })
-    .optional(),
+  body: z.object({
+    name: z.string().min(1, 'Name is required'),
+    academicFaculty: z.string(),
+  }),
 });
 export const AcademicDepartmentValidation = {
   createAcademicDepartmentValidation,

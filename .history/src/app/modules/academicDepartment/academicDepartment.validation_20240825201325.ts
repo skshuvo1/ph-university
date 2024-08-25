@@ -12,6 +12,7 @@ const updateAcademicDepartmentValidation = z.object({
   body: z
     .object({
       name: z.string().min(1, 'Name is required'),
+      academicFaculty: z.string(),
     })
     .optional(),
 });

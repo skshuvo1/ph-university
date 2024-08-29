@@ -14,14 +14,7 @@ const getAllStudentsFromDB = async () => {
 };
 
 const getStudentById = async (id: string) => {
-  const result = await Student.findOne({ id })
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
+  const result = await Student.findOne({ id });
   return result;
 };
 

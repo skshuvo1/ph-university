@@ -12,9 +12,7 @@ const getAllAcademicDepartments = async () => {
 };
 
 const getAcademicDepartmentById = async (id: string) => {
-  const result = await AcademicDepartment.find({ id }).populate(
-    'academicFaculty',
-  );
+  const result = await AcademicDepartment.find({ id });
   return result;
 };
 

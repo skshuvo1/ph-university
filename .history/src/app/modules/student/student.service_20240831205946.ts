@@ -51,8 +51,6 @@ const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
       modifiedUpdatedData[`localGuardian.${key}`] = value;
     }
   }
-
-  console.log(modifiedUpdatedData);
   const result = await Student.findOneAndUpdate({ id }, payload, {
     new: true,
   }).exec();

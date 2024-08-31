@@ -5,8 +5,8 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
-// import AppError from '../../error/appError';
-// import httpStatus from 'http-status';
+import AppError from '../../error/appError';
+import httpStatus from 'http-status';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -142,6 +142,14 @@ const studentSchema = new Schema<TStudent>(
 //   return existingStudent;
 // };
 
+studentSchema.methods.isUserExists = async function (id: string) {
+  const existingStudent = await Student.findOne({ id });
+  if (!existingStudent) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Invalid id');
+  }
+  return existingStudent;
+};
+
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
@@ -155,24 +163,6 @@ studentSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
-
-// studentSchema.pre('findOneAndUpdate', async function (doc,next) {
-//   const existingStudent = await Student.findOneAndUpdate(doc.id);
-//   if (!existingStudent) {
-//     throw new AppError(httpStatus.BAD_REQUEST, 'Invalid id');
-//   // console.log(this);
-//   }
-//   next();
-// });
-
-// studentSchema.statics.isUserExists = async function (id: string) {
-//   const existingStudent = await Student.findOne({ id });
-//   console.log(existingStudent);
-//   if (!existingStudent) {
-//     throw new AppError(httpStatus.BAD_REQUEST, 'Invalid id');
-//   }
-//   return existingStudent;
-// };
 
 // Mongoose model
 export const Student = model<TStudent>('Student', studentSchema);

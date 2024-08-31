@@ -5,8 +5,8 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
-// import AppError from '../../error/appError';
-// import httpStatus from 'http-status';
+import AppError from '../../error/appError';
+import httpStatus from 'http-status';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {

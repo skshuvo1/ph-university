@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 import { TErrorSources } from '../interface/error';
-import config from '../config';
-import handleZodError from '../error/handleZodError';
 
 export const globalErrorHandlers: ErrorRequestHandler = (
   err,
@@ -22,6 +20,23 @@ export const globalErrorHandlers: ErrorRequestHandler = (
     },
   ];
 
+  const handleZodError = (err: ZodError) => {
+    statusCode = 400;
+
+    const errorSources: TErrorSources = err.issues.map((issue: ZodIssue) => {
+      return {
+        path: issue?.path[issue.path.length - 1],
+        message: issue.message,
+      };
+    });
+
+    return {
+      statusCode,
+      message: 'Validation Error',
+      errorSources,
+    };
+  };
+
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
@@ -33,9 +48,6 @@ export const globalErrorHandlers: ErrorRequestHandler = (
     success: false,
     message,
     errorSources,
-    // stack: err?.stack,
-
-    stack: config.NODE_ENV === 'development' ? err?.stack : null,
   });
 };
 

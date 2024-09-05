@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 import { TErrorSources } from '../interface/error';
 import config from '../config';
-import handleZodError from '../error/handleZodError';
 
 export const globalErrorHandlers: ErrorRequestHandler = (
   err,
@@ -35,7 +34,7 @@ export const globalErrorHandlers: ErrorRequestHandler = (
     errorSources,
     // stack: err?.stack,
 
-    stack: config.NODE_ENV === 'development' ? err?.stack : null,
+    stack: config.NODE_ENV === 'developmen' ? err?.stack : null,
   });
 };
 

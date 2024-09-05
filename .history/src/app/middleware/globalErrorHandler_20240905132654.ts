@@ -4,7 +4,6 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import { TErrorSources } from '../interface/error';
 import config from '../config';
-import handleZodError from '../error/handleZodError';
 
 export const globalErrorHandlers: ErrorRequestHandler = (
   err,
